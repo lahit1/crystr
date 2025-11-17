@@ -1,0 +1,128 @@
+#pragma once
+
+#ifdef __cplusplus
+	#define CRY_FUN_SPEC inline constexpr
+	#define CRY_IDTF(name) name
+	#define STRUCTED_VAR
+	#if __cplusplus >= 201703L
+		#include <string_view>
+		#define CRY_STD_STR_TYPE std::string_view
+	#else
+		#include <string>
+		#define CRY_STD_STR_TYPE std::string
+	#endif
+#else
+	#define CRY_FUN_SPEC inline
+	#define CRY_IDTF(name) cry##name
+	#define CRY_STD_STR_TYPE char*
+	#define STRUCTED_VAR struct
+#endif
+
+#ifdef __cplusplus
+namespace cry {
+#endif
+
+	struct CRY_IDTF(Engine) {
+
+		#ifdef __cplusplus
+			struct Worker; // pre-declaration
+		#endif
+
+		CRY_STD_STR_TYPE (*proc)(CRY_STD_STR_TYPE str, CRY_STD_STR_TYPE key);
+        };
+
+
+	struct
+	#ifdef __cplusplus
+		Engine::Worker
+	#else
+		cryEngineWorker // " CRY_IDTF(Engine)Worker " is equals to " cryEngineWorker " in this scope (it's C since __cplusplus isn't defined)
+	#endif
+	{
+		STRUCTED_VAR CRY_IDTF(Engine) *engine;
+		CRY_STD_STR_TYPE val;
+
+		#ifdef __cplusplus
+		CRY_FUN_SPEC Worker(Engine *engine, CRY_STD_STR_TYPE val) : engine(engine), val(val) {}
+		CRY_FUN_SPEC CRY_STD_STR_TYPE proc(CRY_STD_STR_TYPE key);
+		#endif
+	};
+
+	CRY_FUN_SPEC CRY_STD_STR_TYPE
+	#ifdef __cplusplus
+	Engine::Worker::proc
+	#else
+	cryEngineWorker_proc
+	#endif
+	(
+	#ifndef __cplusplus
+		STRUCTED_VAR cryEngineWorker *this, // Add " cryEngineWorker* " when it's C (when __cplusplus isn't defined) for compability between C and C++
+	#endif
+		CRY_STD_STR_TYPE key
+	) {
+		return this->engine->proc(this->val, key);
+	}
+
+	struct CRY_IDTF(StringPack) {
+		CRY_STD_STR_TYPE val;
+
+		#ifdef __cplusplus
+		CRY_FUN_SPEC CRY_IDTF(StringPack)(CRY_STD_STR_TYPE val);
+		#endif
+
+		#ifdef __cplusplus
+		CRY_FUN_SPEC Engine::Worker with(CRY_IDTF(Engine) *engine);
+		#endif
+
+		#ifdef __cplusplus
+		inline constexpr Engine::Worker operator()(CRY_IDTF(Engine) *engine) {       // " CRY_FUN_SPEC " is equlas to " inline constexpr " since __cplusplus is defined
+											      // " CRY_IDTF() " is equals to " cry::StringPack " since __cplusplus is defined
+			return with(engine);
+		}
+		#endif
+	};
+
+	CRY_FUN_SPEC
+
+	#ifdef __cplusplus
+		cry::StringPack::StringPack(CRY_STD_STR_TYPE val) {
+			this->val = val;
+		}
+	#else
+		struct cryStringPack
+		cryStringPack_new(CRY_STD_STR_TYPE val) {
+			struct cryStringPack ret;
+			ret.val = val;
+			return ret;
+		}
+	#endif
+
+
+	CRY_FUN_SPEC
+	#ifdef __cplusplus
+		Engine::Worker
+		cry::StringPack::with(
+	#else
+		struct cryEngineWorker // " CRY_IDTF(Engine)Worker " is equals to " cryEngineWorker " in this scope (it's C since __cplusplus isn't defined)
+		cryStringPack_with(STRUCTED_VAR cryStringPack *this,
+	#endif
+	STRUCTED_VAR CRY_IDTF(Engine) *engine) {
+		#ifdef __cplusplus
+	                return Engine::Worker(engine, val);
+        	#else
+	                struct cryEngineWorker worker; // " CRY_IDTF(Engine)Worker " is equals to " cryEngineWorker " in this scope (it's C since __cplusplus isn't defined)
+			worker.engine = engine;
+			return worker;
+                #endif
+	}
+
+
+	#ifdef __cplusplus
+	CRY_FUN_SPEC CRY_IDTF(StringPack) operator"" _cry(const char* str, size_t len) {
+		return CRY_IDTF(StringPack) ( CRY_STD_STR_TYPE (str, len) );
+	}
+	#endif
+
+#ifdef __cplusplus
+}
+#endif
