@@ -21,13 +21,22 @@
 namespace cry {
 #endif
 
+	#if __cplusplus >= 201703L
+	typedef std::string_view StringPack_data;
+	#else
+	struct CRY_IDTF(StringPack_data) {
+                CRY_STD_STR_TYPE val;
+                CRY_STRING_LENGTH_T len;
+	};
+	#endif
+
 	struct CRY_IDTF(Engine) {
 
 		#ifdef __cplusplus
 			struct Worker;
 		#endif
 
-		CRY_STD_STR_TYPE (*proc)(CRY_STD_STR_TYPE str, CRY_STD_STR_TYPE key);
+		STRUCTED_VAR CRY_IDTF(StringPack_data) (*proc)(CRY_STD_STR_TYPE str, CRY_STD_STR_TYPE key);
         };
 
 
@@ -43,11 +52,12 @@ namespace cry {
 
 		#ifdef __cplusplus
 		inline constexpr Worker(Engine *engine, CRY_STD_STR_TYPE val) : engine(engine), val(val) {}
-		inline constexpr CRY_STD_STR_TYPE proc(CRY_STD_STR_TYPE key);
+		inline constexpr CRY_IDTF(StringPack_data) proc(CRY_STD_STR_TYPE key);
 		#endif
 	};
 
-	CRY_FUN_SPEC CRY_STD_STR_TYPE
+	CRY_FUN_SPEC
+	STRUCTED_VAR CRY_IDTF(StringPack_data)
 	#ifdef __cplusplus
 	Engine::Worker::proc
 	#else
@@ -62,16 +72,20 @@ namespace cry {
 		return this->engine->proc(this->val, key);
 	}
 
-	struct CRY_IDTF(StringPack) {
+	struct CRY_IDTF(StringPack)
+		#ifdef __cplusplus
+		: public CRY_IDTF(StringPack_data) {
+		#else
+		{
 		CRY_STD_STR_TYPE val;
 		CRY_STRING_LENGTH_T len;
-
-	        #ifdef __cplusplus
-		inline StringPack(std::string val) : val(val.c_str()), len(val.size()) {} // don't use it unless it's necessary, can't be declarated constexpr since accepting std::string as paramter !
-		inline constexpr StringPack(CRY_STD_STR_TYPE val, CRY_STRING_LENGTH_T len);
 		#endif
 
-		#ifdef __cplusplus
+
+	        #ifdef __cplusplus
+		inline StringPack(std::string val) : CRY_IDTF(StringPack_data) {val.c_str(), val.size()} {} // don't use it unless it's necessary, can't be declarated constexpr since accepting std::string as paramter !
+		inline constexpr StringPack(CRY_STD_STR_TYPE val, CRY_STRING_LENGTH_T len);
+
 		inline constexpr Engine::Worker with(Engine *engine);
 		inline constexpr Engine::Worker operator()(Engine *engine) {
 			return with(engine);
@@ -81,7 +95,7 @@ namespace cry {
 
 	CRY_FUN_SPEC
 	#ifdef __cplusplus
-		StringPack::StringPack(CRY_STD_STR_TYPE val, CRY_STRING_LENGTH_T len) : val(val), len(len) {}
+		StringPack::StringPack(CRY_STD_STR_TYPE val, CRY_STRING_LENGTH_T len) : CRY_IDTF(StringPack_data) {val, len} {}
 	#else
 		struct cryStringPack
 		cryStringPack_new(CRY_STD_STR_TYPE val, CRY_STRING_LENGTH_T len) {
@@ -104,7 +118,13 @@ namespace cry {
 		STRUCTED_VAR CRY_IDTF(Engine) *engine
 	) {
 		#ifdef __cplusplus
-	                return Engine::Worker(engine, val);
+	                return Engine::Worker(engine,
+			#if __cplusplus >= 201703L
+				this->data()
+			#else
+				val
+			#endif
+			);
         	#else
 	                struct cryEngineWorker worker;
 			worker.engine = engine;
