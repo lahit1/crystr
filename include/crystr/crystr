@@ -66,6 +66,9 @@ namespace cry {
 		#ifdef __cplusplus
 		inline constexpr Worker(Engine *engine, STRUCTED_VAR CRY_IDTF(StringPack_data) pack) : engine(engine), pack(pack) {}
 		inline constexpr CRY_IDTF(StringPack_data) proc(STRUCTED_VAR CRY_IDTF(StringPack_data) key);
+		inline constexpr CRY_IDTF(StringPack_data) operator() (STRUCTED_VAR CRY_IDTF(StringPack_data) key) {
+			return proc(key);
+		}
 		#endif
 	};
 
