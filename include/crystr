@@ -118,8 +118,8 @@ namespace cry {
 
 
 	#ifdef __cplusplus
-	CRY_FUN_SPEC CRY_IDTF(StringPack) operator"" _cry(const char* str, size_t len) {
-		return CRY_IDTF(StringPack) ( CRY_STD_STR_TYPE (str, len) );
+	CRY_FUN_SPEC StringPack operator"" _cry(const char* str, size_t len) {
+		return StringPack ( CRY_STD_STR_TYPE (str, len) );
 	}
 	#endif
 
