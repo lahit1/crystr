@@ -85,7 +85,7 @@ namespace cry {
 	CRY_FUN_SPEC
 
 	#ifdef __cplusplus
-		cry::StringPack::StringPack(CRY_STD_STR_TYPE val) {
+		StringPack::StringPack(CRY_STD_STR_TYPE val) {
 			this->val = val;
 		}
 	#else
@@ -101,7 +101,7 @@ namespace cry {
 	CRY_FUN_SPEC
 	#ifdef __cplusplus
 		Engine::Worker
-		cry::StringPack::with(
+		StringPack::with(
 	#else
 		struct cryEngineWorker // " CRY_IDTF(Engine)Worker " is equals to " cryEngineWorker " in this scope (it's C since __cplusplus isn't defined)
 		cryStringPack_with(STRUCTED_VAR cryStringPack *this,
