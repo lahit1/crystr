@@ -1,0 +1,13 @@
+.heading-note {
+    font-size: 0.50em;
+    color: var(--md-default-fg-color--dark);
+    font-weight: normal;
+    margin-left: 0.5em;
+}
+
+.subtitle3 {
+    font-size: 0.75em;
+    color: var(--md-default-fg-color--dark);
+    font-weight: normal;
+    margin-left: 0.5em;
+}
