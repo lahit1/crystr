@@ -4,6 +4,7 @@ theme:
   features:
     - navigation.tabs
     - navigation.sections
+    - navigation.footer
 
 markdown_extensions:
   - codehilite
@@ -14,8 +15,14 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Getting Started:
-      - Installation: install.md
-      - Usage: usage.md
+      - Hold the Text via StringPack: start/holdthetext.md
+      - Using Cry Suffix: start/crysuffix.md
+      - Creating Engine: start/createengine.md
+      - Finally Encrypting The Text: start/encryptthetext.md
   - API Reference:
-      - StringPack: api/stringpack.md
       - Engine: api/engine.md
+      - Worker: api/worker.md
+      - StringPack: api/stringpack.md
+
+extra_css:
+  - stylesheets/extra.css
