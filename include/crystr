@@ -42,8 +42,8 @@ namespace cry {
 		CRY_STD_STR_TYPE val;
 
 		#ifdef __cplusplus
-		CRY_FUN_SPEC Worker(Engine *engine, CRY_STD_STR_TYPE val) : engine(engine), val(val) {}
-		CRY_FUN_SPEC CRY_STD_STR_TYPE proc(CRY_STD_STR_TYPE key);
+		inline constexpr Worker(Engine *engine, CRY_STD_STR_TYPE val) : engine(engine), val(val) {}
+		inline constexpr CRY_STD_STR_TYPE proc(CRY_STD_STR_TYPE key);
 		#endif
 	};
 
@@ -55,7 +55,7 @@ namespace cry {
 	#endif
 	(
 	#ifndef __cplusplus
-		STRUCTED_VAR cryEngineWorker *this, // Add " cryEngineWorker* " when it's C (when __cplusplus isn't defined) for compability between C and C++
+		struct cryEngineWorker *this, // Add " cryEngineWorker* " when it's C (when __cplusplus isn't defined) for compability between C and C++
 	#endif
 		CRY_STD_STR_TYPE key
 	) {
@@ -72,11 +72,8 @@ namespace cry {
 		#endif
 
 		#ifdef __cplusplus
-		inline constexpr Engine::Worker with(CRY_IDTF(Engine) *engine);
-		#endif
-
-		#ifdef __cplusplus
-		inline constexpr Engine::Worker operator()(CRY_IDTF(Engine) *engine) {       // " CRY_FUN_SPEC " is equlas to " inline constexpr " since __cplusplus is defined
+		inline constexpr Engine::Worker with(Engine *engine);
+		inline constexpr Engine::Worker operator()(Engine *engine) {       // " CRY_FUN_SPEC " is equlas to " inline constexpr " since __cplusplus is defined
 											      // " CRY_IDTF() " is equals to " cry::StringPack " since __cplusplus is defined
 			return with(engine);
 		}
@@ -118,7 +115,7 @@ namespace cry {
 
 
 	#ifdef __cplusplus
-	CRY_FUN_SPEC StringPack operator"" _cry(const char* str, size_t len) {
+	inline constexpr StringPack operator"" _cry(const char* str, size_t len) {
 		return StringPack ( str, len );
 	}
 	#endif
