@@ -24,7 +24,7 @@ namespace cry {
 	struct CRY_IDTF(Engine) {
 
 		#ifdef __cplusplus
-			struct Worker; // pre-declaration
+			struct Worker;
 		#endif
 
 		CRY_STD_STR_TYPE (*proc)(CRY_STD_STR_TYPE str, CRY_STD_STR_TYPE key);
@@ -35,7 +35,7 @@ namespace cry {
 	#ifdef __cplusplus
 		Engine::Worker
 	#else
-		cryEngineWorker // " CRY_IDTF(Engine)Worker " is equals to " cryEngineWorker " in this scope (it's C since __cplusplus isn't defined)
+		cryEngineWorker
 	#endif
 	{
 		STRUCTED_VAR CRY_IDTF(Engine) *engine;
@@ -73,8 +73,7 @@ namespace cry {
 
 		#ifdef __cplusplus
 		inline constexpr Engine::Worker with(Engine *engine);
-		inline constexpr Engine::Worker operator()(Engine *engine) {       // " CRY_FUN_SPEC " is equlas to " inline constexpr " since __cplusplus is defined
-											      // " CRY_IDTF() " is equals to " cry::StringPack " since __cplusplus is defined
+		inline constexpr Engine::Worker operator()(Engine *engine) {
 			return with(engine);
 		}
 		#endif
@@ -99,7 +98,7 @@ namespace cry {
 		Engine::Worker
 		StringPack::with(
 	#else
-		struct cryEngineWorker // " CRY_IDTF(Engine)Worker " is equals to " cryEngineWorker " in this scope (it's C since __cplusplus isn't defined)
+		struct cryEngineWorker
 		cryStringPack_with(STRUCTED_VAR cryStringPack *this,
 	#endif
 		STRUCTED_VAR CRY_IDTF(Engine) *engine
@@ -107,7 +106,7 @@ namespace cry {
 		#ifdef __cplusplus
 	                return Engine::Worker(engine, val);
         	#else
-	                struct cryEngineWorker worker; // " CRY_IDTF(Engine)Worker " is equals to " cryEngineWorker " in this scope (it's C since __cplusplus isn't defined)
+	                struct cryEngineWorker worker;
 			worker.engine = engine;
 			return worker;
                 #endif
