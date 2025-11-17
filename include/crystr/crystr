@@ -143,6 +143,7 @@ namespace cry {
         	#else
 	                struct cryEngineWorker worker;
 			worker.engine = engine;
+			worker.val = this->data();
 			return worker;
                 #endif
 	}
