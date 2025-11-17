@@ -22,7 +22,9 @@ namespace cry {
 #endif
 
 	#if __cplusplus >= 201703L
-	typedef std::string_view StringPack_data;
+	struct StringPack_data : std::string_view {
+		using std::string_view::string_view;
+	};
 	#else
 	struct CRY_IDTF(StringPack_data) {
                 CRY_STD_STR_TYPE val;
@@ -74,7 +76,7 @@ namespace cry {
 
 	struct CRY_IDTF(StringPack)
 		#ifdef __cplusplus
-		: public CRY_IDTF(StringPack_data) {
+		: public StringPack_data {
 		#else
 		{
 		CRY_STD_STR_TYPE val;
@@ -82,8 +84,12 @@ namespace cry {
 		#endif
 
 
-	        #ifdef __cplusplus
+		#ifdef __cplusplus
+
+		#if __cplusplus < 201703L
 		inline StringPack(std::string val) : CRY_IDTF(StringPack_data) {val.c_str(), val.size()} {} // don't use it unless it's necessary, can't be declarated constexpr since accepting std::string as paramter !
+		#endif
+
 		inline constexpr StringPack(CRY_STD_STR_TYPE val, CRY_STRING_LENGTH_T len);
 
 		inline constexpr Engine::Worker with(Engine *engine);
