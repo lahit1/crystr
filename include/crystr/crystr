@@ -49,7 +49,7 @@ namespace cry {
 			struct Worker;
 		#endif
 
-		STRUCTED_VAR CRY_IDTF(StringPack_data) (*proc)(CRY_STD_STR_TYPE str, CRY_STD_STR_TYPE key);
+		STRUCTED_VAR CRY_IDTF(StringPack_data) (*proc)(STRUCTED_VAR CRY_IDTF(StringPack_data) text, STRUCTED_VAR CRY_IDTF(StringPack_data) key);
         };
 
 
@@ -61,11 +61,11 @@ namespace cry {
 	#endif
 	{
 		STRUCTED_VAR CRY_IDTF(Engine) *engine;
-		CRY_STD_STR_TYPE val;
+		STRUCTED_VAR CRY_IDTF(StringPack_data) pack;
 
 		#ifdef __cplusplus
-		inline constexpr Worker(Engine *engine, CRY_STD_STR_TYPE val) : engine(engine), val(val) {}
-		inline constexpr CRY_IDTF(StringPack_data) proc(CRY_STD_STR_TYPE key);
+		inline constexpr Worker(Engine *engine, STRUCTED_VAR CRY_IDTF(StringPack_data) pack) : engine(engine), pack(pack) {}
+		inline constexpr CRY_IDTF(StringPack_data) proc(STRUCTED_VAR CRY_IDTF(StringPack_data) key);
 		#endif
 	};
 
@@ -80,9 +80,9 @@ namespace cry {
 	#ifndef __cplusplus
 		struct cryEngineWorker *this, // Add " cryEngineWorker* " when it's C (when __cplusplus isn't defined) for compability between C and C++
 	#endif
-		CRY_STD_STR_TYPE key
+		STRUCTED_VAR CRY_IDTF(StringPack_data) key
 	) {
-		return this->engine->proc(this->val, key);
+		return this->engine->proc(this->pack, key);
 	}
 
 	struct CRY_IDTF(StringPack)
@@ -138,12 +138,12 @@ namespace cry {
 	) {
 		#ifdef __cplusplus
 	                return Engine::Worker(engine,
-				this->data()
+				StringPack_data(this->data(), this->size())
 			);
         	#else
 	                struct cryEngineWorker worker;
 			worker.engine = engine;
-			worker.val = this->data();
+			worker.pack = cryStringPack_data(this->val, this->len);
 			return worker;
                 #endif
 	}
