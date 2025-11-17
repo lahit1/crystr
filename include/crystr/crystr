@@ -30,6 +30,16 @@ namespace cry {
 	struct CRY_IDTF(StringPack_data) {
                 CRY_STD_STR_TYPE val;
                 CRY_STRING_LENGTH_T len;
+
+		#ifdef __cplusplus
+		CRY_FUN_SPEC CRY_STRING_LENGTH_T size() {
+			return len;
+		}
+
+		CRY_FUN_SPEC CRY_STD_STR_TYPE data() {
+			return val;
+		}
+		#endif
 	};
 	#endif
 
@@ -128,11 +138,7 @@ namespace cry {
 	) {
 		#ifdef __cplusplus
 	                return Engine::Worker(engine,
-			#if __cplusplus >= 201703L
 				this->data()
-			#else
-				val
-			#endif
 			);
         	#else
 	                struct cryEngineWorker worker;
