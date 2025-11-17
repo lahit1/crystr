@@ -1,1 +1,21 @@
-site_name: CryStr Documentation
+site_name: Crystr Documentation
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+
+markdown_extensions:
+  - codehilite
+  - toc:
+      permalink: true
+  - admonition
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: install.md
+      - Usage: usage.md
+  - API Reference:
+      - StringPack: api/stringpack.md
+      - Engine: api/engine.md
