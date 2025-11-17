@@ -24,6 +24,7 @@ namespace cry {
 	#if __cplusplus >= 201703L
 	struct StringPack_data : std::string_view {
 		using std::string_view::string_view;
+		StringPack_data(const char* s) : std::string_view(s) {}
 	};
 	#else
 	struct CRY_IDTF(StringPack_data) {
@@ -86,7 +87,9 @@ namespace cry {
 
 		#ifdef __cplusplus
 
-		#if __cplusplus < 201703L
+		#if __cplusplus >= 201703L
+		StringPack(const char* s) : StringPack_data(s) {}
+		#else
 		inline StringPack(std::string val) : CRY_IDTF(StringPack_data) {val.c_str(), val.size()} {} // don't use it unless it's necessary, can't be declarated constexpr since accepting std::string as paramter !
 		#endif
 
