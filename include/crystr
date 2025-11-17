@@ -4,19 +4,18 @@
 	#define CRY_FUN_SPEC inline constexpr
 	#define CRY_IDTF(name) name
 	#define STRUCTED_VAR
-	#if __cplusplus >= 201703L
-		#include <string_view>
-		#define CRY_STD_STR_TYPE std::string_view
-	#else
-		#include <string>
-		#define CRY_STD_STR_TYPE std::string
-	#endif
+
+	#include <string>
+	#include <cstddef>
+	#define CRY_STRING_LENGTH_T size_t
 #else
 	#define CRY_FUN_SPEC inline
 	#define CRY_IDTF(name) cry##name
-	#define CRY_STD_STR_TYPE char*
 	#define STRUCTED_VAR struct
+	#define CRY_STRING_LENGTH_T int
 #endif
+
+#define CRY_STD_STR_TYPE const char*
 
 #ifdef __cplusplus
 namespace cry {
@@ -65,13 +64,15 @@ namespace cry {
 
 	struct CRY_IDTF(StringPack) {
 		CRY_STD_STR_TYPE val;
+		CRY_STRING_LENGTH_T len;
 
-		#ifdef __cplusplus
-		CRY_FUN_SPEC CRY_IDTF(StringPack)(CRY_STD_STR_TYPE val);
+	        #ifdef __cplusplus
+		inline StringPack(std::string val) : val(val.c_str()), len(val.size()) {} // don't use it unless it's necessary, can't be declarated constexpr since accepting std::string as paramter !
+		inline constexpr StringPack(CRY_STD_STR_TYPE val, CRY_STRING_LENGTH_T len);
 		#endif
 
 		#ifdef __cplusplus
-		CRY_FUN_SPEC Engine::Worker with(CRY_IDTF(Engine) *engine);
+		inline constexpr Engine::Worker with(CRY_IDTF(Engine) *engine);
 		#endif
 
 		#ifdef __cplusplus
@@ -83,16 +84,14 @@ namespace cry {
 	};
 
 	CRY_FUN_SPEC
-
 	#ifdef __cplusplus
-		StringPack::StringPack(CRY_STD_STR_TYPE val) {
-			this->val = val;
-		}
+		StringPack::StringPack(CRY_STD_STR_TYPE val, CRY_STRING_LENGTH_T len) : val(val), len(len) {}
 	#else
 		struct cryStringPack
-		cryStringPack_new(CRY_STD_STR_TYPE val) {
+		cryStringPack_new(CRY_STD_STR_TYPE val, CRY_STRING_LENGTH_T len) {
 			struct cryStringPack ret;
 			ret.val = val;
+			ret.len = len;
 			return ret;
 		}
 	#endif
@@ -106,7 +105,8 @@ namespace cry {
 		struct cryEngineWorker // " CRY_IDTF(Engine)Worker " is equals to " cryEngineWorker " in this scope (it's C since __cplusplus isn't defined)
 		cryStringPack_with(STRUCTED_VAR cryStringPack *this,
 	#endif
-	STRUCTED_VAR CRY_IDTF(Engine) *engine) {
+		STRUCTED_VAR CRY_IDTF(Engine) *engine
+	) {
 		#ifdef __cplusplus
 	                return Engine::Worker(engine, val);
         	#else
@@ -119,7 +119,7 @@ namespace cry {
 
 	#ifdef __cplusplus
 	CRY_FUN_SPEC StringPack operator"" _cry(const char* str, size_t len) {
-		return StringPack ( CRY_STD_STR_TYPE (str, len) );
+		return StringPack ( str, len );
 	}
 	#endif
 
