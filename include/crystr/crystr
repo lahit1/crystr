@@ -151,13 +151,12 @@ namespace cry {
                 #endif
 	}
 
-
-	#ifdef __cplusplus
-	inline constexpr StringPack operator"" _cry(const char* str, size_t len) {
-		return StringPack ( str, len );
-	}
-	#endif
+#ifdef __cplusplus
+}
+#endif
 
 #ifdef __cplusplus
+inline constexpr StringPack operator"" _cry(const char* str, size_t len) {
+	return StringPack ( str, len );
 }
 #endif
