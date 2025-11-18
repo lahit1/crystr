@@ -1,9 +1,9 @@
-# What is a cry::Engine
+# Creating Engine
+## What is a cry::Engine
 We were need a interface to support flexible and extensible encryption, so we come with this interface, it has a function pointer named proc as member.
 
-# Let's Create an Engine
-## One Way Encryption
-
+## Let's Create an Engine
+### One Way Encryption Example
 First we need to define a processor function
 ```cpp
 cry::StringPack_data proc(cry::StringPack_data text, cry::StringPack_data key) {
