@@ -26,9 +26,7 @@ cry::StringPack_data proc(cry::StringPack_data text, cry::StringPack_data key) {
 
 Now we can create an Engine and integrate our "proc" function with it
 ```cpp
-int main() {
-	cry::Engine e;
+cry::Engine e;
 
-	e.proc = proc;
-}
+e.proc = proc;
 ```
