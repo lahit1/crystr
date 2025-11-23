@@ -591,14 +591,14 @@
 
 <h1 id="finally-encrypting-the-text">Finally Encrypting The Text<a class="headerlink" href="#finally-encrypting-the-text" title="Permanent link">&para;</a></h1>
 <p>Now we know all the things to encrypt a text efficiently, let's start it.</p>
-<pre class="codehilite"><code class="language-cpp">// auto result = &quot;Message&quot;_cry(&amp;e)(&quot;pwd&quot;_cry);
-auto pack = &quot;Message&quot;_cry(&amp;e);
-auto result = pack(&quot;password&quot;_cry);
+<div class="codehilite"><pre><span></span><code><span class="c1">// auto result = &quot;Message&quot;_cry(&amp;e)(&quot;pwd&quot;_cry);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">pack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Message&quot;</span><span class="n">_cry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">e</span><span class="p">);</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pack</span><span class="p">(</span><span class="s">&quot;password&quot;</span><span class="n">_cry</span><span class="p">);</span>
 
 
-for(int i=0; i &lt; result.size(); i++)
-    std::cout &lt;&lt; std::hex &lt;&lt; (int)result.data()[i] &lt;&lt; std::endl;
-</code></pre>
+<span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">hex</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</code></pre></div>
 
 
 

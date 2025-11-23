@@ -703,29 +703,29 @@
 <h2 id="lets-create-an-engine">Let's Create an Engine<a class="headerlink" href="#lets-create-an-engine" title="Permanent link">&para;</a></h2>
 <h3 id="one-way-encryption-example">One Way Encryption Example<a class="headerlink" href="#one-way-encryption-example" title="Permanent link">&para;</a></h3>
 <p>First we need to define a processor function</p>
-<pre class="codehilite"><code class="language-cpp">cry::StringPack_data proc(cry::StringPack_data text, cry::StringPack_data key) {
+<div class="codehilite"><pre><span></span><code><span class="n">cry</span><span class="o">::</span><span class="n">StringPack_data</span><span class="w"> </span><span class="nf">proc</span><span class="p">(</span><span class="n">cry</span><span class="o">::</span><span class="n">StringPack_data</span><span class="w"> </span><span class="n">text</span><span class="p">,</span><span class="w"> </span><span class="n">cry</span><span class="o">::</span><span class="n">StringPack_data</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
-    int shift = 5;
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">shift</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
 
-    char *result = new char[ text.size() ];
-    for (int i=0; i &lt; text.size(); i++) {
-        char &amp;c = result[i];
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">char</span><span class="p">[</span><span class="w"> </span><span class="n">text</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="w"> </span><span class="p">];</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">text</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">char</span><span class="w"> </span><span class="o">&amp;</span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
 
-        if(c &gt;= 'a' || c &lt;= 'g')
-            ++shift;
+<span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="sc">&#39;a&#39;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="sc">&#39;g&#39;</span><span class="p">)</span>
+<span class="w">            </span><span class="o">++</span><span class="n">shift</span><span class="p">;</span>
 
-        result[i] = text[i] + shift;
-    }
+<span class="w">        </span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">text</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">shift</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
 
-    return cry::StringPack_data(result, text.size());
-}
-</code></pre>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">cry</span><span class="o">::</span><span class="n">StringPack_data</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="n">text</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre></div>
 
 <p>Now we can create an Engine and integrate our "proc" function with it</p>
-<pre class="codehilite"><code class="language-cpp">cry::Engine e;
+<div class="codehilite"><pre><span></span><code><span class="n">cry</span><span class="o">::</span><span class="n">Engine</span><span class="w"> </span><span class="n">e</span><span class="p">;</span>
 
-e.proc = proc;
-</code></pre>
+<span class="n">e</span><span class="p">.</span><span class="n">proc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">proc</span><span class="p">;</span>
+</code></pre></div>
 
 
 
